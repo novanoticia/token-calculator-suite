@@ -1,0 +1,8 @@
+{
+  "name": "token-calculator",
+  "version": "2.0.0",
+  "description": "Analyze token usage, estimate API costs, compare AI models, and assess file sizes for context window optimization. A toolkit for understanding and managing AI resource consumption.",
+  "author": {
+    "name": "Pablo"
+  }
+}
