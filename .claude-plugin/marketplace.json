@@ -1,0 +1,19 @@
+{
+  "name": "token-calculator-suite",
+  "description": "Analyze token usage, estimate API costs, compare AI models, and assess file sizes for context window optimization.",
+  "owner": {
+    "name": "Pablo",
+    "url": "https://github.com/novanoticia"
+  },
+  "plugins": [
+    {
+      "name": "token-calculator",
+      "source": "./",
+      "description": "Toolkit for understanding and managing AI resource consumption.",
+      "version": "2.0.0",
+      "category": "productivity",
+      "keywords": ["tokens", "cost", "api", "claude", "models"],
+      "strict": false
+    }
+  ]
+}
