@@ -1,0 +1,19 @@
+{
+  "name": "token-calculator-suite",
+  "version": "1.0.0",
+  "description": "Unified token calculator for Claude Chat, Cowork, and Claude Code",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "install-all": "yarn install",
+    "build": "yarn workspace @token-calc/core build",
+    "test": "yarn workspace @token-calc/core test",
+    "dev:mcp": "yarn workspace @token-calc/claude-code-mcp dev",
+    "deploy:mcp": "yarn workspace @token-calc/claude-code-mcp deploy"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

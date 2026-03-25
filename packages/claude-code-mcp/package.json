@@ -1,0 +1,19 @@
+{
+  "name": "@token-calc/claude-code-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for token calculation - integrates with Claude Code",
+  "type": "module",
+  "main": "dist/mcp-server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && node dist/mcp-server.js",
+    "start": "node dist/mcp-server.js"
+  },
+  "dependencies": {
+    "@token-calc/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

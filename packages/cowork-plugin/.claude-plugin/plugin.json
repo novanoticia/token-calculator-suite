@@ -1,0 +1,24 @@
+{
+  "name": "Token Calculator",
+  "identifier": "token-calculator",
+  "version": "1.0.0",
+  "description": "Analyze and calculate token consumption across files, conversations, and projects. Part of token-calculator-suite.",
+  "author": "Token Calculator Suite",
+  "authorWebsite": "https://github.com/token-calculator-suite",
+  "category": "analysis",
+  "keywords": ["tokens", "usage", "analysis", "claude", "metrics"],
+  "skills": [
+    "skills/token-analyzer.md",
+    "skills/file-analyzer.md"
+  ],
+  "commands": [
+    "commands/analyze-tokens.md",
+    "commands/analyze-file.md"
+  ],
+  "connectors": [],
+  "capabilities": [
+    "file-analysis",
+    "token-calculation",
+    "report-generation"
+  ]
+}

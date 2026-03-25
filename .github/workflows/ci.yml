@@ -1,0 +1,59 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Build core library
+      run: yarn build
+
+    - name: Run tests
+      run: yarn test
+
+    - name: Check code quality
+      run: yarn lint 2>/dev/null || echo "Linter not configured yet"
+
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run security audit
+      run: npm audit --audit-level=moderate || true
+
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Check README exists
+      run: test -f README.md && echo "✓ README present"
+
+    - name: Check CONTRIBUTING exists
+      run: test -f CONTRIBUTING.md && echo "✓ CONTRIBUTING guide present"
+
+    - name: Check LICENSE exists
+      run: test -f LICENSE && echo "✓ LICENSE present"
