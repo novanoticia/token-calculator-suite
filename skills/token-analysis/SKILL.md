@@ -32,11 +32,13 @@ Estimate token counts and API costs for text content.
 
 ## Context window reference
 
-| Tier | Tokens |
-|------|--------|
-| Claude web standard | 200K |
-| Claude API standard | 200K |
-| Claude API extended | 1M |
+> Note: 200K tokens is the limit **per conversation**, as documented publicly by Anthropic.
+
+| Tier | Tokens | Scope |
+|------|--------|-------|
+| Claude web standard | 200K | per conversation |
+| Claude API standard | 200K | per conversation |
+| Claude API extended | 1M | per conversation |
 
 ## Output format
 

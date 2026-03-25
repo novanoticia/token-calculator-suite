@@ -42,7 +42,7 @@ For each file:
 - **File**: name and type
 - **Size**: in KB/MB
 - **Estimated tokens**: with method used
-- **Context impact**: percentage of 200K window
+- **Context impact**: percentage of 200K window (per conversation, as documented by Anthropic)
 
 Summary:
 - **Total tokens**: all files combined

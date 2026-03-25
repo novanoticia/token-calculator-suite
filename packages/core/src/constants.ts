@@ -45,6 +45,7 @@ export const TOKENIZATION_RATIOS = {
   }
 };
 
+// 200,000 tokens per conversation — publicly documented by Anthropic
 export const CONTEXT_WINDOW = 200000;
 
 export const FILE_TOKENS = {

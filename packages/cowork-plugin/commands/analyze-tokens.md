@@ -31,7 +31,7 @@ Slash command to analyze tokens in the current document.
 
 Estimated tokens: 12,500-14,800
 Margin: ±18%
-Context usage: 6.25%-7.4% of 200k window
+Context usage: 6.25%-7.4% of 200k window (per conversation)
 
 This document is ready to analyze with Claude.
 ```

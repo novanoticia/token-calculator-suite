@@ -41,7 +41,7 @@ Breakdown:
   • 50 pages × 300 tokens/page: 15,000 tokens
   • Formatting overhead: 500 tokens
 
-This is 7.5%-8.5% of your 200k context window.
+This is 7.5%-8.5% of your 200k context window per conversation.
 ```
 
 ## Technical notes

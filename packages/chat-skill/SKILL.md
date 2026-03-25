@@ -85,7 +85,7 @@ Usa `formatTokenResult()` de core para output estándar.
 
 - Core library: `@token-calc/core`
 - Ratios español: 1 palabra ≈ 1.3 tokens
-- Contexto: 200,000 tokens
+- Contexto: **200,000 tokens por conversación** (límite documentado públicamente por Anthropic)
 - Datos exactos: 3,468 tokens (Preferences + Memory)
 
 ---
