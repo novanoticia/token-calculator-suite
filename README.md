@@ -75,42 +75,82 @@ token-calculator-suite/
 
 ### For Claude Code
 
-**Installation**:
-```bash
-# Clone repo
-git clone https://github.com/token-calculator-suite/token-calculator-suite.git
-cd token-calculator-suite
+This MCP server integrates token calculation directly into Claude Code, allowing you to estimate token usage and API costs while working on projects.
 
-# Install dependencies
-yarn install
+#### Prerequisites
 
-# Build
-yarn build
+- **Node.js 18.0.0 or higher** - Required for MCP server operation
+- **Yarn 4.0.0+** - Used for dependency management in this monorepo
+- **Git** - Required to clone the repository
 
-# Run
-yarn dev:mcp
-```
+#### Installation Steps
 
-**Usage**:
-```bash
-# Calculate conversation
-claude token-calc tokens \
-  --messages 50 \
-  --user-words 5000 \
-  --assistant-words 8000 \
-  --lang es
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/token-calculator-suite/token-calculator-suite.git
+   cd token-calculator-suite
+   ```
 
-# Analyze file
-claude token-calc file --path ./document.pdf
+2. **Install dependencies**
+   ```bash
+   yarn install
+   ```
+   
+   This installs all workspace dependencies. The installation creates a `node_modules` directory and sets up workspace links.
 
-# Convert units
-claude token-calc convert --words 1000 --lang es
-```
+3. **Build the MCP server**
+   ```bash
+   yarn workspace @token-calculator/claude-code-mcp build
+   ```
+   
+   This compiles the TypeScript code into JavaScript in the `dist` directory. You should see output indicating successful compilation with no errors.
 
-**Features**:
-- ✅ CLI with flexible arguments
-- ✅ JSON output for scripting
-- ✅ File auto-detection (PDF, DOCX, images, code)
+4. **Verify the build was successful**
+   ```bash
+   ls -la packages/claude-code-mcp/dist/
+   ```
+   
+   You should see `mcp-server.js` in this directory.
+
+5. **Configure Claude Code**
+   
+   Edit (or create) `~/.claude/settings.json` and add the MCP server configuration:
+   
+   ```json
+   {
+     "mcpServers": {
+       "token-calculator": {
+         "command": "node",
+         "args": ["/full/path/to/token-calculator-suite/packages/claude-code-mcp/dist/mcp-server.js"],
+         "type": "stdio"
+       }
+     }
+   }
+   ```
+   
+   **Important**: Replace `/full/path/to/token-calculator-suite` with the absolute full path to your cloned repository. You can find the full path by running `pwd` in the repository directory.
+
+6. **Restart Claude Code**
+   
+   Close and reopen Claude Code. The token calculator MCP will be automatically loaded.
+
+#### Troubleshooting
+
+If the MCP server fails to start:
+
+- **Check Node.js version**: Run `node --version` and ensure it's >= 18.0.0
+- **Verify the build**: Ensure `packages/claude-code-mcp/dist/mcp-server.js` exists and is not empty
+- **Check the path**: Ensure the `args` path in settings.json uses the absolute full path (starting with `/`) to the mcp-server.js file
+- **Clear cache**: If you had build errors before, try `yarn clean` followed by `yarn install && yarn build`
+- **Check logs**: Examine Claude Code's console output (View → Output in Claude Code) for detailed error messages
+
+#### Features
+
+Once installed, the token calculator MCP provides:
+- ✅ Real-time token estimation for text
+- ✅ File analysis (PDF, DOCX, images, code)
+- ✅ API cost calculation for Claude models
+- ✅ Multi-language support
 - ✅ Batch processing support
 
 ---
