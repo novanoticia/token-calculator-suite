@@ -10,8 +10,10 @@ Estimate token counts and API costs for text content.
 
 ## Token estimation rules
 
-- **English**: 1 token ≈ 4 characters
-- **Spanish**: 1 token ≈ 3 characters
+These ratios match `@token-calc/core` constants (`TOKENIZATION_RATIOS`):
+
+- **English**: 1 token ≈ 4 characters (`charsToTokens: 0.25`)
+- **Spanish**: 1 token ≈ 3 characters (`charsToTokens: 0.33`)
 - **Code**: 1 token ≈ 3.5 characters
 - **Mixed content**: use weighted average based on language proportion
 

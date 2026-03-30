@@ -10,8 +10,8 @@
     "install-all": "yarn install",
     "build": "yarn workspace @token-calc/core build",
     "test": "yarn workspace @token-calc/core test",
-    "dev:mcp": "yarn workspace @token-calc/claude-code-mcp dev",
-    "deploy:mcp": "yarn workspace @token-calc/claude-code-mcp deploy"
+    "dev:cli": "yarn workspace @token-calc/cli dev",
+    "start:cli": "yarn workspace @token-calc/cli start"
   },
   "engines": {
     "node": ">=18.0.0"

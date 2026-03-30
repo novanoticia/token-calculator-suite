@@ -9,7 +9,7 @@ import {
   CONTEXT_WINDOW,
   FILE_TOKENS,
   ERROR_MARGINS
-} from './constants';
+} from './constants.js';
 
 export interface TokenCalculationResult {
   totalTokens: number;

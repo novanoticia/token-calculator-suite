@@ -1,12 +1,19 @@
 {
   "name": "@token-calc/core",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Shared token calculation logic for all platforms",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsc",
-    "test": "node --test dist/__tests__/*.test.js"
+    "test": "tsc && node --test dist/__tests__/index.test.js"
   },
   "dependencies": {},
   "devDependencies": {

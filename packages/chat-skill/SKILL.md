@@ -25,7 +25,8 @@ Versión optimizada para claude.ai que importa lógica compartida del paquete `@
 
 He detectado que tienes datos de sistema inyectados por Anthropic:
   • User Preferences: ~468 tokens ✅
-  • User Memory: ~2,800-3,200 tokens ✅
+  • User Memory: ~3,000 tokens ✅
+  • Total datos fijos: ~3,468 tokens
 
 ¿Quieres que use estos datos para calcular con más precisión?
 
