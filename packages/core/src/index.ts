@@ -36,7 +36,6 @@ export interface ConversationInput {
   userWords: number;
   assistantWords: number;
   language?: 'es' | 'en';
-  useExactData?: boolean;
 }
 
 export interface FileInput {
@@ -56,6 +55,9 @@ export function calculateTokens(
   files: FileInput[] = [],
   useExactData: boolean = true
 ): TokenCalculationResult {
+  // 0. Validate inputs
+  validateConversationInput(conversation);
+
   // 1. Calculate fixed overhead
   const fixedData = calculateFixedData(useExactData);
 
@@ -119,7 +121,9 @@ export function calculateFixedData(useExactData: boolean): number {
 }
 
 export function calculateConversationTokens(input: ConversationInput): number {
-  const lang = input.language || 'es';
+  // Fall back to 'es' if language is unrecognised
+  const lang: 'es' | 'en' =
+    input.language && TOKENIZATION_RATIOS[input.language] ? input.language : 'es';
   const ratio = TOKENIZATION_RATIOS[lang].wordsToTokens;
 
   const totalWords = input.userWords + input.assistantWords;
@@ -148,6 +152,21 @@ export function calculateFileTokens(file: FileInput): number {
 
     default:
       return 0;
+  }
+}
+
+// ============================================
+// INPUT VALIDATION
+// ============================================
+
+function validateConversationInput(input: ConversationInput): void {
+  const fields: Array<keyof Pick<ConversationInput, 'messageCount' | 'userWords' | 'assistantWords'>> =
+    ['messageCount', 'userWords', 'assistantWords'];
+  for (const field of fields) {
+    const value = input[field];
+    if (!Number.isFinite(value) || value < 0) {
+      throw new Error(`${field} must be a non-negative finite number, got: ${value}`);
+    }
   }
 }
 

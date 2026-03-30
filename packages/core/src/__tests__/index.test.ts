@@ -212,3 +212,74 @@ describe('formatTokenResult', () => {
     assert.ok(formatted.includes('CONTEXTO'));
   });
 });
+
+// ============================================
+// Edge cases and validation
+// ============================================
+
+describe('validateConversationInput (via calculateTokens)', () => {
+  it('throws when messageCount is negative', () => {
+    assert.throws(
+      () => calculateTokens({ messageCount: -1, userWords: 100, assistantWords: 100 }),
+      /messageCount must be a non-negative finite number/
+    );
+  });
+
+  it('throws when userWords is NaN', () => {
+    assert.throws(
+      () => calculateTokens({ messageCount: 5, userWords: NaN, assistantWords: 100 }),
+      /userWords must be a non-negative finite number/
+    );
+  });
+
+  it('throws when assistantWords is Infinity', () => {
+    assert.throws(
+      () => calculateTokens({ messageCount: 5, userWords: 100, assistantWords: Infinity }),
+      /assistantWords must be a non-negative finite number/
+    );
+  });
+
+  it('accepts zero counts (empty conversation)', () => {
+    const result = calculateTokens({ messageCount: 0, userWords: 0, assistantWords: 0 });
+    assert.ok(result.totalTokens >= 0);
+  });
+});
+
+describe('calculateConversationTokens — language fallback', () => {
+  it('falls back to Spanish ratio for unrecognised language', () => {
+    // Cast to bypass TS: simulates runtime bad input
+    const input = { messageCount: 1, userWords: 100, assistantWords: 100, language: 'fr' as any };
+    // Should not throw; uses Spanish ratio (1.3)
+    const result = calculateTokens(input, [], false);
+    assert.ok(result.totalTokens >= 0);
+  });
+});
+
+describe('calculateFileTokens — docx sizes', () => {
+  it('calculates docx small', () => {
+    assert.equal(calculateFileTokens({ type: 'docx', size: 'small' }), 5000);
+  });
+
+  it('calculates docx medium (default)', () => {
+    assert.equal(calculateFileTokens({ type: 'docx' }), 7500);
+  });
+
+  it('calculates docx large', () => {
+    assert.equal(calculateFileTokens({ type: 'docx', size: 'large' }), 10000);
+  });
+});
+
+describe('calculateTokens — multiple files', () => {
+  it('sums tokens for multiple files correctly', () => {
+    const result = calculateTokens(
+      { messageCount: 1, userWords: 0, assistantWords: 0 },
+      [
+        { type: 'image', size: 'small' },   // 500
+        { type: 'code', lines: 100 },        // 500
+        { type: 'web_search', resultCount: 2 } // 800
+      ],
+      false
+    );
+    assert.equal(result.breakdown.files, 1800);
+  });
+});

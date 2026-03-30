@@ -81,10 +81,9 @@ function handleTokensCommand(args: string[]) {
     userWords,
     assistantWords,
     language: lang,
-    useExactData
   };
 
-  const result = calculateTokens(input);
+  const result = calculateTokens(input, [], useExactData);
   console.log(formatTokenResult(result));
   console.log('\nJSON Output:');
   console.log(JSON.stringify(result, null, 2));
