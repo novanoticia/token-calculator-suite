@@ -1,7 +1,7 @@
 # Dependencies
 node_modules/
-yarn.lock
 package-lock.json
+# Note: yarn.lock is intentionally NOT ignored — required for Yarn 4 hardened mode on CI
 
 # Build
 dist/
