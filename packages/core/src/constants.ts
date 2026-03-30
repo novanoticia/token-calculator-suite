@@ -33,13 +33,13 @@ export const FIXED_DATA = {
 export const TOKENIZATION_RATIOS = {
   es: {
     wordsToTokens: 1.3,
-    charsToTokens: 0.25,
+    charsToTokens: 0.33,  // ~3 chars per token for Spanish (BPE splits more on non-ASCII)
     language: 'Spanish',
     accuracy: '±10-15%'
   },
   en: {
     wordsToTokens: 1.0,
-    charsToTokens: 0.25,
+    charsToTokens: 0.25,  // ~4 chars per token for English
     language: 'English',
     accuracy: '±5-10%'
   }

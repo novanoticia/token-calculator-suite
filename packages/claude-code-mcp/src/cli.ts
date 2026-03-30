@@ -1,6 +1,6 @@
 /**
- * Token Calculator MCP Server
- * Exposes core token calculation library via MCP protocol
+ * Token Calculator CLI
+ * Command-line interface for token estimation
  * For use with Claude Code and terminal
  */
 
@@ -65,9 +65,9 @@ function handleTokensCommand(args: string[]) {
    * Usage: claude token-calc tokens --messages 50 --user-words 5000 --assistant-words 8000 --lang es
    */
 
-  const messageCount = parseInt(getArgValue(args, '--messages') || '0');
-  const userWords = parseInt(getArgValue(args, '--user-words') || '0');
-  const assistantWords = parseInt(getArgValue(args, '--assistant-words') || '0');
+  const messageCount = parseIntSafe(getArgValue(args, '--messages') || '0', '--messages');
+  const userWords = parseIntSafe(getArgValue(args, '--user-words') || '0', '--user-words');
+  const assistantWords = parseIntSafe(getArgValue(args, '--assistant-words') || '0', '--assistant-words');
   const lang = (getArgValue(args, '--lang') || 'es') as 'es' | 'en';
   const useExactData = getArgValue(args, '--exact-data') !== 'false';
 
@@ -100,8 +100,8 @@ function handleFileCommand(args: string[]) {
   const filePath = getArgValue(args, '--path');
   const fileType = (getArgValue(args, '--type') || 'pdf') as FileInput['type'];
   const size = (getArgValue(args, '--size') || 'medium') as 'small' | 'medium' | 'large';
-  const pages = parseInt(getArgValue(args, '--pages') || '0');
-  const lines = parseInt(getArgValue(args, '--lines') || '0');
+  const pages = parseIntSafe(getArgValue(args, '--pages') || '0', '--pages');
+  const lines = parseIntSafe(getArgValue(args, '--lines') || '0', '--lines');
 
   let file: FileInput;
 
@@ -155,8 +155,8 @@ function handleConvertCommand(args: string[]) {
    *        claude token-calc convert --chars 20000 --lang en
    */
 
-  const words = parseInt(getArgValue(args, '--words') || '0');
-  const chars = parseInt(getArgValue(args, '--chars') || '0');
+  const words = parseIntSafe(getArgValue(args, '--words') || '0', '--words');
+  const chars = parseIntSafe(getArgValue(args, '--chars') || '0', '--chars');
   const lang = (getArgValue(args, '--lang') || 'es') as 'es' | 'en';
 
   if (words === 0 && chars === 0) {
@@ -181,6 +181,15 @@ function handleConvertCommand(args: string[]) {
 // HELPERS
 // ============================================
 
+function parseIntSafe(value: string, flag: string): number {
+  const parsed = parseInt(value, 10);
+  if (isNaN(parsed)) {
+    console.error(`Error: ${flag} must be a valid number, got "${value}"`);
+    process.exit(1);
+  }
+  return parsed;
+}
+
 function getArgValue(args: string[], flag: string): string | null {
   const index = args.indexOf(flag);
   return index !== -1 && index < args.length - 1 ? args[index + 1] : null;
@@ -188,10 +197,10 @@ function getArgValue(args: string[], flag: string): string | null {
 
 function showHelp() {
   console.log(`
-🧮 Token Calculator for Claude Code
+🧮 Token Calculator CLI
 
 USAGE:
-  claude token-calc <command> [options]
+  token-calc <command> [options]
 
 COMMANDS:
   tokens      Calculate tokens from conversation
