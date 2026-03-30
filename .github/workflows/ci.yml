@@ -30,7 +30,7 @@ jobs:
         corepack prepare yarn@stable --activate
 
     - name: Install dependencies
-      run: yarn install
+      run: yarn install --no-immutable
 
     - name: Build core library
       run: yarn build
@@ -59,7 +59,7 @@ jobs:
         corepack prepare yarn@stable --activate
 
     - name: Install dependencies
-      run: yarn install
+      run: yarn install --no-immutable
 
     - name: Run security audit
       run: yarn npm audit --all --severity high || true
