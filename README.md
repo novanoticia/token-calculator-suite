@@ -45,7 +45,7 @@ token-calculator-suite/
 ├── packages/
 │   ├── core/                    ← Shared calculation logic
 │   ├── calculador-tokens-v2/    ← Claude.ai skill
-│   └── claude-code-mcp/         ← Claude Code CLI tool
+│   └── cli/                     ← token-calc CLI (@token-calc/cli)
 ├── README.md                    ← This file
 └── package.json                 ← Monorepo config
 ```
@@ -99,19 +99,56 @@ identifies the skill.
 
 ### For Claude Code
 
-This MCP server integrates token calculation directly into Claude Code, allowing you to estimate token usage and API costs while working on projects.
+Two independent ways to use this in Claude Code. They are not alternatives to each
+other — most people want the first.
 
-#### Prerequisites
+| What | What you get | Setup |
+|---|---|---|
+| **Plugin skills** | The four skills in `skills/`, invoked as `/token-calculator:token-analysis` and friends. Pure text, no build. | Install the plugin (see below) |
+| **`token-calc` CLI** | A terminal command Claude can run through the Bash tool, printing a token breakdown plus JSON. | Clone and build (see below) |
 
-- **Node.js 18.0.0 or higher** - Required for MCP server operation
-- **Yarn 4.0.0+** - Used for dependency management in this monorepo
-- **Git** - Required to clone the repository
+> **This package is a CLI, not an MCP server.** Earlier revisions of this section
+> described registering a `dist/mcp-server.js` under `mcpServers`. That file does not
+> exist and never did: the package (`@token-calc/cli`) has no MCP SDK dependency and
+> implements no JSON-RPC. Its build output is `dist/cli.js`, a `token-calc` executable.
+> If you followed those instructions and got stuck looking for `mcp-server.js`, that is
+> why. See [issue #1](https://github.com/novanoticia/token-calculator-suite/issues/1).
 
-#### Installation Steps
+#### Option A — Install the plugin (skills only, no build)
 
-1. **Clone the repository**
+```
+/plugin marketplace add https://github.com/novanoticia/token-calculator-suite
+/plugin install token-calculator@token-calculator-suite
+/reload-plugins
+```
+
+Then invoke any of the four skills:
+
+```
+/token-calculator:token-analysis      # tokens and cost for a chunk of text
+/token-calculator:file-analysis       # what a file will cost in context
+/token-calculator:project-cost        # total API cost for a project
+/token-calculator:model-comparison    # models by cost and context window
+```
+
+Nothing to compile: the skills are Markdown.
+
+#### Option B — Build the `token-calc` CLI
+
+**Prerequisites**
+
+- **Node.js 18.0.0 or higher** (`node --version`)
+- **Yarn 4 (Berry)**. This matters: the workspaces use the `workspace:*` protocol and
+  the lockfile is Berry v8. Yarn Classic (1.x) **fails outright** with
+  `Couldn't find package "@token-calc/core@workspace:*" ... on the "npm" registry`.
+  Enable Berry with `corepack enable && yarn set version stable`.
+- **Git**
+
+**Steps**
+
+1. **Clone**
    ```bash
-   git clone https://github.com/token-calculator-suite/token-calculator-suite.git
+   git clone https://github.com/novanoticia/token-calculator-suite.git
    cd token-calculator-suite
    ```
 
@@ -119,63 +156,74 @@ This MCP server integrates token calculation directly into Claude Code, allowing
    ```bash
    yarn install
    ```
-   
-   This installs all workspace dependencies. The installation creates a `node_modules` directory and sets up workspace links.
+   `.yarnrc.yml` already sets `nodeLinker: node-modules`, so this produces a real
+   `node_modules` tree rather than Yarn PnP.
 
-3. **Build the MCP server**
+3. **Build**
    ```bash
-   yarn workspace @token-calculator/claude-code-mcp build
+   yarn build
    ```
-   
-   This compiles the TypeScript code into JavaScript in the `dist` directory. You should see output indicating successful compilation with no errors.
+   This builds `@token-calc/core` and then `@token-calc/cli`, in that order — the CLI
+   depends on core. To build just one: `yarn build:core` or `yarn build:cli`.
 
-4. **Verify the build was successful**
+4. **Verify**
    ```bash
-   ls -la packages/claude-code-mcp/dist/
+   ls packages/cli/dist/
    ```
-   
-   You should see `mcp-server.js` in this directory.
+   You should see **`cli.js`**. That is the executable the `token-calc` bin points to.
 
-5. **Configure Claude Code**
-   
-   Edit (or create) `~/.claude/settings.json` and add the MCP server configuration:
-   
-   ```json
-   {
-     "mcpServers": {
-       "token-calculator": {
-         "command": "node",
-         "args": ["/full/path/to/token-calculator-suite/packages/claude-code-mcp/dist/mcp-server.js"],
-         "type": "stdio"
-       }
-     }
-   }
+5. **Run it**
+   ```bash
+   node packages/cli/dist/cli.js tokens \
+     --messages 50 --user-words 5000 --assistant-words 8000 --lang es
+
+   node packages/cli/dist/cli.js convert --words 1000 --lang es
+   node packages/cli/dist/cli.js file --path ./document.pdf
+   node packages/cli/dist/cli.js help
    ```
-   
-   **Important**: Replace `/full/path/to/token-calculator-suite` with the absolute full path to your cloned repository. You can find the full path by running `pwd` in the repository directory.
+   To get a bare `token-calc` on your `PATH`, link the package once. `npm link` is the
+   one that creates a global bin — Yarn Berry's `yarn link` does something different
+   (it links a package *into another project*, not onto your `PATH`):
+   ```bash
+   cd packages/cli && npm link && cd -
+   token-calc help
+   ```
+   Or skip linking and add an alias:
+   ```bash
+   alias token-calc="node $(pwd)/packages/cli/dist/cli.js"
+   ```
 
-6. **Restart Claude Code**
-   
-   Close and reopen Claude Code. The token calculator MCP will be automatically loaded.
+6. **Use it from Claude Code**
+
+   There is nothing to configure. Claude runs it through the Bash tool like any other
+   command — just tell it what you want, mentioning the path or the linked binary:
+
+   > *"Run token-calc on ./informe.pdf and tell me if it fits in the context window"*
+
+   To let Claude call it without asking permission each time, add it to your
+   [allowed tools](https://code.claude.com/docs/en/settings), for example
+   `Bash(token-calc:*)`.
 
 #### Troubleshooting
 
-If the MCP server fails to start:
+- **`Couldn't find package "@token-calc/core@workspace:*"`** — you are on Yarn Classic.
+  Run `corepack enable && yarn set version stable`, then `yarn install` again.
+- **`yarn build` compiles core but not the CLI** — you are on a revision from before
+  the root `build` script chained both. Use `yarn build:cli` directly.
+- **Looking for `mcp-server.js`** — it does not exist. The build output is
+  `packages/cli/dist/cli.js`. See the note at the top of this section.
+- **Type errors about `process` or `fs`** — `@types/node` must be installed at the
+  root; it is already in the root `devDependencies`, so re-run `yarn install`.
+- **`Unknown command: undefined`** — you ran the CLI with no arguments. That message is
+  followed by the usage text; pick one of `tokens`, `file`, `convert`, `help`.
 
-- **Check Node.js version**: Run `node --version` and ensure it's >= 18.0.0
-- **Verify the build**: Ensure `packages/claude-code-mcp/dist/mcp-server.js` exists and is not empty
-- **Check the path**: Ensure the `args` path in settings.json uses the absolute full path (starting with `/`) to the mcp-server.js file
-- **Clear cache**: If you had build errors before, try `yarn clean` followed by `yarn install && yarn build`
-- **Check logs**: Examine Claude Code's console output (View → Output in Claude Code) for detailed error messages
+#### What the CLI gives you
 
-#### Features
-
-Once installed, the token calculator MCP provides:
-- ✅ Real-time token estimation for text
-- ✅ File analysis (PDF, DOCX, images, code)
-- ✅ API cost calculation for Claude models
-- ✅ Multi-language support
-- ✅ Batch processing support
+- ✅ Token estimation for a conversation, with a min–max range and a confidence level
+- ✅ File analysis (PDF, DOCX, images, code) by path or by type and size
+- ✅ Word and character conversion, language-aware (ES/EN)
+- ✅ Context-window usage as an absolute figure and a percentage
+- ✅ Human-readable output plus a JSON block for piping
 
 ---
 
@@ -359,7 +407,7 @@ yarn build
 | `plugin.json` | Portable plugin manifest (Agent Plugins 1.0.0) |
 | `.claude-plugin/plugin.json` | Claude Code plugin manifest |
 | `skills/*/SKILL.md` | Plugin skills |
-| `packages/claude-code-mcp/src/mcp-server.ts` | CLI commands |
+| `packages/cli/src/cli.ts` | `token-calc` CLI commands |
 
 ---
 

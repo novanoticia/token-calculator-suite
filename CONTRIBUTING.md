@@ -130,7 +130,7 @@ skills/                # Plugin skills — Cowork and Claude Code integration
 packages/
 ├── core/              # Shared calculation logic
 ├── calculador-tokens-v2/  # Claude.ai integration (dir name = skill name)
-└── claude-code-mcp/   # Claude Code MCP integration
+└── cli/               # token-calc CLI (@token-calc/cli)
 ```
 
 **Core changes affect everything.** Make sure to test broadly.
