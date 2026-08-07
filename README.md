@@ -23,10 +23,12 @@ Reusable, open-source library for estimating Claude token consumption across thr
 
 ```
 token-calculator-suite/
+├── skills/                      ← Plugin skills (Cowork + Claude Code)
+├── plugin.json                  ← Agent Plugins 1.0.0 manifest
+├── .claude-plugin/              ← Claude Code manifest + marketplace entry
 ├── packages/
 │   ├── core/                    ← Shared calculation logic
 │   ├── chat-skill/              ← Claude.ai skill
-│   ├── cowork-plugin/           ← Claude Cowork plugin
 │   └── claude-code-mcp/         ← Claude Code CLI tool
 ├── README.md                    ← This file
 └── package.json                 ← Monorepo config
@@ -55,14 +57,17 @@ token-calculator-suite/
 
 ### For Cowork
 
-**Installation**: 
-1. Zip `packages/cowork-plugin/` as `token-calculator.zip`
+**Installation**:
+1. Zip the repository root (it is the plugin root: `plugin.json`, `.claude-plugin/`
+   and `skills/` all live there) as `token-calculator.zip`
 2. In Cowork: Customize > Plugins > Upload > Select zip
 
 **Usage**:
 ```
-/tokens:analyze        # Analyze current file
-/tokens:report         # Generate token usage report
+/token-calculator:token-analysis     # Analyze text for token count and cost
+/token-calculator:file-analysis      # Estimate a file's token consumption
+/token-calculator:project-cost       # Estimate total API cost for a project
+/token-calculator:model-comparison   # Compare models by cost and context window
 ```
 
 **Features**:
@@ -332,7 +337,9 @@ yarn build
 |------|---------|
 | `packages/core/README.md` | Core library API |
 | `packages/chat-skill/SKILL.md` | Chat skill usage |
-| `packages/cowork-plugin/.claude-plugin/plugin.json` | Plugin manifest |
+| `plugin.json` | Portable plugin manifest (Agent Plugins 1.0.0) |
+| `.claude-plugin/plugin.json` | Claude Code plugin manifest |
+| `skills/*/SKILL.md` | Plugin skills |
 | `packages/claude-code-mcp/src/mcp-server.ts` | CLI commands |
 
 ---

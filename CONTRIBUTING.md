@@ -126,11 +126,11 @@ Have an idea? Open an issue with:
 ## 📚 Project Structure
 
 ```
+skills/                # Plugin skills — Cowork and Claude Code integration
 packages/
 ├── core/              # Shared calculation logic
 ├── chat-skill/        # Claude.ai integration
-├── cowork-plugin/     # Cowork integration
-└── claude-code-mcp/   # Claude Code integration
+└── claude-code-mcp/   # Claude Code MCP integration
 ```
 
 **Core changes affect everything.** Make sure to test broadly.
