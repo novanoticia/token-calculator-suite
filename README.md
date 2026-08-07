@@ -28,7 +28,7 @@ token-calculator-suite/
 ├── .claude-plugin/              ← Claude Code manifest + marketplace entry
 ├── packages/
 │   ├── core/                    ← Shared calculation logic
-│   ├── chat-skill/              ← Claude.ai skill
+│   ├── calculador-tokens-v2/    ← Claude.ai skill
 │   └── claude-code-mcp/         ← Claude Code CLI tool
 ├── README.md                    ← This file
 └── package.json                 ← Monorepo config
@@ -40,7 +40,10 @@ token-calculator-suite/
 
 ### For Chat (claude.ai)
 
-**Installation**: Copy `packages/chat-skill/SKILL.md` to your skills folder.
+**Installation**: Copy the whole `packages/calculador-tokens-v2/` directory into
+your skills folder. Copy the directory, not just the `SKILL.md`: the Agent Skills
+spec requires the folder name to match the frontmatter `name`, which is what
+identifies the skill.
 
 **Usage**:
 ```
@@ -336,7 +339,7 @@ yarn build
 | File | Purpose |
 |------|---------|
 | `packages/core/README.md` | Core library API |
-| `packages/chat-skill/SKILL.md` | Chat skill usage |
+| `packages/calculador-tokens-v2/SKILL.md` | Chat skill usage |
 | `plugin.json` | Portable plugin manifest (Agent Plugins 1.0.0) |
 | `.claude-plugin/plugin.json` | Claude Code plugin manifest |
 | `skills/*/SKILL.md` | Plugin skills |

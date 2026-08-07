@@ -129,7 +129,7 @@ Have an idea? Open an issue with:
 skills/                # Plugin skills — Cowork and Claude Code integration
 packages/
 ├── core/              # Shared calculation logic
-├── chat-skill/        # Claude.ai integration
+├── calculador-tokens-v2/  # Claude.ai integration (dir name = skill name)
 └── claude-code-mcp/   # Claude Code MCP integration
 ```
 
