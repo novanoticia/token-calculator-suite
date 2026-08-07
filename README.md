@@ -5,6 +5,22 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org)
 [![Platforms](https://img.shields.io/badge/Platforms-Chat%20|%20Cowork%20|%20Code-brightgreen)](https://github.com/token-calculator-suite/token-calculator-suite)
 
+> **Conforms to [Agent Plugins 1.0.0](https://agent-plugins.org/specification)** — the
+> portable packaging format from the Agentic AI Foundation (OpenAI, Amazon, Microsoft,
+> Cursor and Vercel, with Google as core maintainer). The repository root is the plugin
+> root: it carries the portable `plugin.json` manifest alongside `.claude-plugin/` and
+> the four skills in `skills/token-analysis/`, `skills/file-analysis/`,
+> `skills/project-cost/` and `skills/model-comparison/`, so any conformant client
+> discovers them.
+>
+> **Works in ChatGPT.** The skills are plain text — instructions and criteria, no local
+> execution — so they upload as-is via *Plugins → Skills → Create → Upload from your
+> computer* and behave the same as in Claude. Their frontmatter validates against the
+> closed [Agent Skills](https://agentskills.io/specification) field set, which is what
+> ChatGPT, claude.ai and the Skills API require to accept an upload: an extra key there
+> is not ignored, it fails hard. ChatGPT *Skills* require a Business, Enterprise,
+> Healthcare or Edu plan.
+
 **Unified token calculation system for Claude Chat, Cowork, and Claude Code.**
 
 Reusable, open-source library for estimating Claude token consumption across three Anthropic platforms. Built with modularity, accuracy, and privacy in mind.
