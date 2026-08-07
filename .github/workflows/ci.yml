@@ -32,7 +32,9 @@ jobs:
     - name: Install dependencies
       run: yarn install --no-immutable
 
-    - name: Build core library
+    # `yarn build` encadena build:core y build:cli. Antes solo compilaba core, así que
+    # un error de compilación en el CLI no llegaba a detectarse aquí.
+    - name: Build core library and CLI
       run: yarn build
 
     - name: Run tests
