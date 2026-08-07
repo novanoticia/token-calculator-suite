@@ -14,12 +14,12 @@
 > discovers them.
 >
 > **Works in ChatGPT.** The skills are plain text — instructions and criteria, no local
-> execution — so they upload as-is via *Plugins → Skills → Create → Upload from your
-> computer* and behave the same as in Claude. Their frontmatter validates against the
+> execution — so they install by switching **Work** on in the ChatGPT selector and
+> adding them from **Plugins**, by name or by this repository's URL. They behave the
+> same as in Claude. Their frontmatter validates against the
 > closed [Agent Skills](https://agentskills.io/specification) field set, which is what
 > ChatGPT, claude.ai and the Skills API require to accept an upload: an extra key there
-> is not ignored, it fails hard. ChatGPT *Skills* require a Business, Enterprise,
-> Healthcare or Edu plan.
+> is not ignored, it fails hard. Also available on the **free plan**, with usage limits.
 
 **Unified token calculation system for Claude Chat, Cowork, and Claude Code.**
 
