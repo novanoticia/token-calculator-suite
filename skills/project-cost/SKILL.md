@@ -1,7 +1,6 @@
 ---
 name: project-cost
 description: Estimate total API costs for projects and workflows. Use when the user wants to budget for API usage, plan a project involving multiple Claude calls, or understand the cost of automating a workflow.
-user-invocable: true
 ---
 
 # Project Cost Estimation

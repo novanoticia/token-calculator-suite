@@ -1,7 +1,6 @@
 ---
 name: file-analysis
 description: Estimate token consumption of files before uploading to Claude. Use when the user wants to know how much context a file will consume, whether a file fits in the context window, or needs to plan which files to include in a conversation.
-user-invocable: true
 ---
 
 # File Analysis for Context Planning

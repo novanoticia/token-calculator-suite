@@ -1,7 +1,6 @@
 ---
 name: model-comparison
 description: Compare AI models by capability, cost, context window, and best use cases. Use when the user asks which model to use, compares Claude vs GPT vs Gemini vs DeepSeek, or needs help choosing the right model for a task.
-user-invocable: true
 ---
 
 # AI Model Comparison Guide

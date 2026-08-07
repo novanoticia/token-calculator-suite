@@ -1,7 +1,6 @@
 ---
 name: token-analysis
 description: Analyze text for token count estimation and API cost calculation. Use when the user asks about tokens, costs, context window usage, or wants to optimize prompt length.
-user-invocable: true
 ---
 
 # Token Analysis
