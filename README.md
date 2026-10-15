@@ -1,5 +1,7 @@
 # 🧮 Token Calculator Suite
 
+[![Current version on main](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnovanoticia%2Ftoken-calculator-suite%2Fmain%2Fplugin.json&query=%24.version&prefix=v&label=Current%20version%20on%20main&color=blue)](https://github.com/novanoticia/token-calculator-suite/blob/main/plugin.json)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org)
