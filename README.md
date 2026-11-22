@@ -1,28 +1,12 @@
 # 🧮 Token Calculator Suite
 
 [![Version on main](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnovanoticia%2Ftoken-calculator-suite%2Fmain%2Fplugin.json&query=%24.version&prefix=v&label=Version%20on%20main&color=blue)](https://github.com/novanoticia/token-calculator-suite/blob/main/plugin.json)
-[![Última versión publicada](https://img.shields.io/github/v/release/novanoticia/token-calculator-suite?display_name=tag&label=%C3%9Altima%20versi%C3%B3n%20publicada&color=green)](https://github.com/novanoticia/token-calculator-suite/releases/latest)
+[![Latest published version](https://img.shields.io/github/v/release/novanoticia/token-calculator-suite?display_name=tag&label=Latest%20published%20version&color=green)](https://github.com/novanoticia/token-calculator-suite/releases/latest)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://www.typescriptlang.org)
-[![Platforms](https://img.shields.io/badge/Platforms-Chat%20|%20Cowork%20|%20Code-brightgreen)](https://github.com/token-calculator-suite/token-calculator-suite)
-
-> **Conforms to [Agent Plugins 1.0.0](https://agent-plugins.org/specification)** — the
-> portable packaging format from the Agentic AI Foundation (OpenAI, Amazon, Microsoft,
-> Cursor and Vercel, with Google as core maintainer). The repository root is the plugin
-> root: it carries the portable `plugin.json` manifest alongside `.claude-plugin/` and
-> the four skills in `skills/token-analysis/`, `skills/file-analysis/`,
-> `skills/project-cost/` and `skills/model-comparison/`, so any conformant client
-> discovers them.
->
-> **Works in ChatGPT.** The skills are plain text — instructions and criteria, no local
-> execution — so they install by switching **Work** on in the ChatGPT selector and
-> adding them from **Plugins**, by name or by this repository's URL. They behave the
-> same as in Claude. Their frontmatter validates against the
-> closed [Agent Skills](https://agentskills.io/specification) field set, which is what
-> ChatGPT, claude.ai and the Skills API require to accept an upload: an extra key there
-> is not ignored, it fails hard. Also available on the **free plan**, with usage limits.
+[![Platforms](https://img.shields.io/badge/Platforms-Chat%20|%20Cowork%20|%20Code-brightgreen)](https://github.com/novanoticia/token-calculator-suite)
 
 **Unified token calculation system for Claude Chat, Cowork, and Claude Code.**
 
@@ -35,6 +19,10 @@ Reusable, open-source library for estimating Claude token consumption across thr
 - 🛡️ Privacy-first (Option C consent model)
 - 📦 Production-ready TypeScript
 - 📚 Fully documented with examples
+
+---
+
+**On this page:** [Quick Start](#-quick-start) · [How It Works](#-how-it-works) · [Architecture](#-architecture) · [Configuration](#-configuration) · [Use Cases](#-use-cases) · [Privacy & Security](#-privacy--security) · [Contributing](#-contributing) · [Known Limitations](#-known-limitations) · [License](#-license)
 
 ---
 
@@ -56,6 +44,32 @@ token-calculator-suite/
 ---
 
 ## 🚀 Quick Start
+
+**Which one do I need?**
+
+| You use… | Do this | Time |
+|---|---|---|
+| claude.ai (Chat) | Copy one folder into your skills ([For Chat](#for-chat-claudeai)) | 2 min |
+| Cowork | Zip the repo and upload it ([For Cowork](#for-cowork)) | 2 min |
+| Claude Code | Install the plugin, no build ([Option A](#option-a--install-the-plugin-skills-only-no-build)) | 1 min |
+| A terminal, or Claude Code running commands | Build the `token-calc` CLI ([Option B](#option-b--build-the-token-calc-cli)) | 5–10 min |
+| ChatGPT or another Agent Plugins client | See the note below | 2 min |
+
+> **Conforms to [Agent Plugins 1.0.0](https://agent-plugins.org/specification)** — the
+> portable packaging format from the Agentic AI Foundation (OpenAI, Amazon, Microsoft,
+> Cursor and Vercel, with Google as core maintainer). The repository root is the plugin
+> root: it carries the portable `plugin.json` manifest alongside `.claude-plugin/` and
+> the four skills in `skills/token-analysis/`, `skills/file-analysis/`,
+> `skills/project-cost/` and `skills/model-comparison/`, so any conformant client
+> discovers them.
+>
+> **Works in ChatGPT.** The skills are plain text — instructions and criteria, no local
+> execution — so they install by switching **Work** on in the ChatGPT selector and
+> adding them from **Plugins**, by name or by this repository's URL. They behave the
+> same as in Claude. Their frontmatter validates against the
+> closed [Agent Skills](https://agentskills.io/specification) field set, which is what
+> ChatGPT, claude.ai and the Skills API require to accept an upload: an extra key there
+> is not ignored, it fails hard. Also available on the **free plan**, with usage limits.
 
 ### For Chat (claude.ai)
 
